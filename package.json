@@ -1,0 +1,24 @@
+{
+  "name": "doghaikuslackhook",
+  "version": "1.0.0",
+  "description": "random dog haiku for slack channel",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/renewabristol/doghaikuslack.git"
+  },
+  "author": "renewabristol",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/renewabristol/doghaikuslack/issues"
+  },
+  "homepage": "https://github.com/renewabristol/doghaikuslack#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
+    "slackbots": "^1.2.0"
+  }
+}
