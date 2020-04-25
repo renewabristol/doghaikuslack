@@ -28,31 +28,53 @@ bot.on('error', (err) => {
 
 const poems = [
   {
-    line1: 'line1',
-    line2: 'line2',
-    line3: 'line3'
+    title: "JOY",
+    line1: 'Although it is true,',
+    line2: 'That I enjoy balls and bones,',
+    line3: "They don't define me"
   },
   {
-    line1: 'line4',
-    line2: 'line5',
-    line3: 'line6'
+    title: "HOMEWORK",
+    line1: "I don't know that word,",
+    line2: "But I'm completely certain,",
+    line3: "I didnt' eat it."
   },
   {
-    line1: 'line7',
-    line2: 'line8',
-    line3: 'line9'
+    title: "THE THRONE",
+    line1: 'The water you keep,',
+    line2: 'In the dog-height chair, you say',
+    line3: "It's NOT for drinking?"
   },
 ]
 
 const sendHaiku = () => {
+  const chosen = Math.floor(Math.random()*poems.length)
+
+  const params = {"blocks":[
+    // it would be possible to structure a very decent looking message 
+    // in here with pictures and other stuff
+    
+    // you could even call https://dog.ceo/api/breeds/image/random API
+    // and prepare the image line in the block image URL
+    // but you would need to call that first
+    // https://dog.ceo/dog-api/ and https://www.taniarascia.com/how-to-connect-to-an-api-with-javascript/ 
+  ]}
+
   bot.postMessageToChannel(
-    'tomtest',
-    `:zap: ${poems[1].line2}`
-);
+    'tomtest', // this is the name of the channel in which bot will post
+    
+    `ok, here's a haiku\n \n *${poems[chosen].title}*\n \n${poems[chosen].line1}\n${poems[chosen].line2}\n${poems[chosen].line3}`,
+    // params
+  );
 }
 
-function handleMessage(message) {
+const explainHowTo = () => {
+  bot.postMessageToChannel('tomtest','try typing poeticdog recite')
+}
+
+const handleMessage = message => {
   if (message.includes('recite')) return sendHaiku()
+  if (message.includes('help') || message.includes('?')) return explainHowTo()
 }
 
 bot.on('message', (data) => {
