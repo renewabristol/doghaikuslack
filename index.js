@@ -1,14 +1,17 @@
-const SlackBot = require('slackbots');
-const axios = require('axios')
+// const SlackBot = require('slackbots');
+
 const dotenv = require('dotenv')
 
 dotenv.config({ debug: process.env.DEBUG })
 
-const bot = new SlackBot({
-  token: `${process.env.BOT_TOKEN}`,
-  name: 'poeticdog'
+// const bot = new SlackBot({
+//   signingSecret: `${process.env.SLACK_SIGNING_SECRET}`,
+//   token: `${process.env.SLACK_BOT_TOKEN}`,
+//   name: 'poeticdog'
 
-})
+// })
+
+
 
 bot.on('start', () => {
   const params = {
