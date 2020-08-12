@@ -27,6 +27,12 @@ app.event('app_home_opened', ({ event, say }) => {
   }
 });
 
+// Listens to incoming messages that contain "hello"
+app.message('hello', async ({ message, say }) => {
+  // say() sends a message to the channel where the event was triggered
+  await say(`Hey there <@${message.user}>!`);
+});
+
 
 // Start your app
 (async () => {
