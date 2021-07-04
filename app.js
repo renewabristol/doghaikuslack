@@ -401,12 +401,7 @@ app.event('app_home_opened', ({ event, say }) => {
   }
 });
 
-// Listens to incoming messages that contain "fuck"
-app.message('fuck', async ({ message, say }) => {
-  // say() sends a message to the channel where the event was triggered
-  await say(`easy <@${message.user}>, there's no need for that sort of language`);
-});
-
+// Listens for the trigger word and replies with a haiku
 app.message('recite', async ({message, say}) => {
   await say(sendHaiku())
 });
