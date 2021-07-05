@@ -400,12 +400,12 @@ const sendHaiku = () => {
   const chosen = Math.floor(Math.random()*poems.length)
 
   return `ok, here's a haiku
-    \n 
-    \n*${poems[chosen].title}*
-    \n 
-    \n${poems[chosen].line1}
-    \n${poems[chosen].line2}
-    \n${poems[chosen].line3}
+    
+    *${poems[chosen].title}*
+     
+    ${poems[chosen].line1}
+    ${poems[chosen].line2}
+    ${poems[chosen].line3}
   `
 
 }
