@@ -4,11 +4,28 @@ const store = require('./store');
 const dotenv = require('dotenv')
 dotenv.config({ debug: process.env.DEBUG })
 
+// use the Bolt framework to scaffold a new Slack App
+// and obviously, don't commit your secrets to the repository
+/** Someone's built the tools, use them
+ * 
+ * scaffold a new slack app
+ * take care not to commit your secrets to the repository
+ * (gitignore the environment variables and pop them in Heroku manually)
+ * 
+ * NOTE: this will change if the app is destined for public consumption
+ * because the OAuth implementation is a different kettle of fish
+ * @todo - find out what's needed to publish this app to the Slack App Marketplace
+ */
 const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   token: process.env.SLACK_BOT_TOKEN
 });
 
+/** LIST OF POEMS
+ * Ordinarily, this would live in a database. 
+ * However, since this is an experiment we are hard-coding a list
+ * of resources that our app will need to spit mad verse :)
+ */
 const poems = [
   {
     title: "JOY",
@@ -377,17 +394,35 @@ const poems = [
   }
 ]
 
+// THIS IS THE HEART OF THE APP: builds the response to be posted to a given
+// Slack channel. Chooses a random poem from the list and returns a string template
 const sendHaiku = () => {
   const chosen = Math.floor(Math.random()*poems.length)
 
-  return `ok, here's a haiku\n \n *${poems[chosen].title}*\n \n${poems[chosen].line1}\n${poems[chosen].line2}\n${poems[chosen].line3}`
+  return `ok, here's a haiku
+    \n 
+    \n*${poems[chosen].title}*
+    \n 
+    \n${poems[chosen].line1}
+    \n${poems[chosen].line2}
+    \n${poems[chosen].line3}
+  `
 
 }
 
+/** Interacting with Poetic Dog from the Apps section of the Slack sidebar
+ * 
+ * This would be a good place for Poetic Dog to tell you what it can do. 
+ * This code allows the app to know if the user has already tried using 
+ * Poetic Dog, and if not, might welcome the user to the app for the first time
+ * with, say, an introductory note and a how-to
+ * @todo - craft a welcome message and HOW-TO guide for Poetic Dog
+ */
 app.event('app_home_opened', ({ event, say }) => {  
-  // Look up the user from DB
+  // Look up the user from the app's store
   let user = store.getUser(event.user);
   
+  // you may want to treat a new user differently
   if(!user) {
     user = {
       user: event.user,
@@ -396,8 +431,9 @@ app.event('app_home_opened', ({ event, say }) => {
     store.addUser(user);
     
     say(`Welcome <@${event.user}>!`);
-  } else {
-    say('Hi again!');
+  } else { 
+    // this user is known to the app already
+    say('How I missed you!');
   }
 });
 
@@ -411,5 +447,6 @@ app.message('recite', async ({message, say}) => {
 (async () => {
   await app.start(process.env.PORT || 3000);
   console.log('⚡️ Bolt app is running!');
+  console.log(process.env)
 })();
 
